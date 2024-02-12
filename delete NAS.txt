@@ -1,0 +1,1 @@
+sudo sed -i "\~^${NAS_URL}.*${NAS_V_DRIVE}~d" /etc/fstab
