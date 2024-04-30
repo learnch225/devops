@@ -1,0 +1,21 @@
+LOG_ROOT="/td/logs"
+CONSUMER_DIR="wot-consumer-cif"
+
+# Check if LOG_ROOT directory exists
+if [ ! -d "$LOG_ROOT" ]; then
+    echo "Error: Log root directory $LOG_ROOT does not exist."
+    exit 1
+fi
+
+# Create wot-consumer-cif directory inside LOG_ROOT
+CONSUMER_PATH="$LOG_ROOT/$CONSUMER_DIR"
+if [ -d "$CONSUMER_PATH" ]; then
+    echo "Directory $CONSUMER_PATH already exists."
+else
+    echo "Creating directory $CONSUMER_PATH..."
+    sudo mkdir -p "$CONSUMER_PATH"
+    sudo chown -R $(whoami):$(whoami) "$CONSUMER_PATH"
+    echo "Directory $CONSUMER_PATH created successfully."
+fi
+
+exit 0
