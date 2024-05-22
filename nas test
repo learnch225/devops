@@ -1,0 +1,47 @@
+#!/bin/bash
+exec >> /tmp/day1/unmount.log
+source /etc/environment
+
+USER=$1
+GROUP_V=$2
+GROUP_O=$3
+NAS_V_DRIVE=$4
+NAS_O_DRIVE=$5
+
+# Unmount and clean up for SIT and PAT
+unmount_nas() {
+    DRIVE=$1
+    if mountpoint -q "$DRIVE"; then
+        sudo umount "$DRIVE"
+        if [ $? -eq 0 ]; then
+            echo "Successfully unmounted $DRIVE."
+        else
+            echo "Failed to unmount $DRIVE."
+        fi
+    else
+        echo "$DRIVE is not mounted."
+    fi
+    
+    if grep -q "$DRIVE" /etc/fstab; then
+        sudo sed -i "\|$DRIVE|d" /etc/fstab
+        echo "Removed $DRIVE entry from /etc/fstab."
+    else
+        echo "No entry for $DRIVE found in /etc/fstab."
+    fi
+
+    # Remove the mount directory if it exists
+    if [ -d "$DRIVE" ]; then
+        sudo rmdir "$DRIVE"
+        echo "Removed directory $DRIVE."
+    fi
+}
+
+# Unmount for SIT, PAT
+unmount_nas $NAS_V_DRIVE
+
+# Unmount for PROD
+if [ "$NAS_O_DRIVE" != "$NAS_V_DRIVE" ]; then
+    unmount_nas $NAS_O_DRIVE
+fi
+
+echo "Unmount and cleanup script completed."
