@@ -1,1 +1,2 @@
 sudo sed -i '/<constant-role-mapper name="default-roles-mapper"/ s/roles="[^"]*"/roles="TDWFP_PLANNERREQ_READ, TDWFP_PLANNERREQ_WRITE, TDWFP_PLANNERREQMGR_READ, TDWFP_PLANNERREQMGR_WRITE"/' /etc/opt/rh/eap7/wildfly/standalone/configuration/standalone.xml
+sudo sed -i '/<constant-role-mapper name="default-roles-mapper"/ s/\(roles=\)"[^"]*"/\1"TDWFP_PLANNERREQ_READ, TDWFP_PLANNERREQ_WRITE, TDWFP_PLANNERREQMGR_READ, TDWFP_PLANNERREQMGR_WRITE"/' /etc/opt/rh/eap7/wildfly/standalone/configuration/standalone.xml
